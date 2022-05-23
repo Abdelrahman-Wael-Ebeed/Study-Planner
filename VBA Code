@@ -1,0 +1,217 @@
+'''''''''' Study Planner By Abdelrahman Wael Mohamed Ebeed ''''''''''
+
+Private Sub CommandButton1_Click()
+
+'''' Validation Checks ''''
+    If VBA.IsNumeric(Me.TextBox1.Value) = False Then
+     MsgBox "Please enter the Number of days that you want to create a Schedule for!", vbCritical
+     Exit Sub
+    End If
+
+    If VBA.IsNumeric(Me.TextBox2.Value) = False Then
+     MsgBox "Please enter the Number of New Classes that you want to include in the Schedule!", vbCritical
+     Exit Sub
+    End If
+
+    If VBA.IsNumeric(Me.TextBox3.Value) = False Then
+     MsgBox "Please enter the Number of Old Classes that you want to include in the Schedule!", vbCritical
+     Exit Sub
+    End If
+    
+    If VBA.IsNumeric(Me.TextBox4.Value) = False Then
+     MsgBox "Please enter the Number of your Monthly Working Hours! You can find it in your Contract or estimate a value.", vbCritical
+     Exit Sub
+    End If
+    
+        If VBA.IsNumeric(Me.TextBox5.Value) = False Then
+     MsgBox "Please enter the Number of Holidays that you want to have in the Schedule!", vbCritical
+     Exit Sub
+    End If
+    
+'''' Initialising Format ''''
+
+Range("A1:I1").EntireColumn.HorizontalAlignment = xlCenter
+Range("E1:I1").ColumnWidth = 10
+    
+    
+'''' Initialising Table Headers ''''
+
+Cells(2, 5).Interior.ColorIndex = 21
+Cells(2, 5).Borders.LineStyle = xlContinous
+Cells(2, 5).Borders.Weight = 2
+Cells(2, 5).Borders.ColorIndex = 21
+
+Cells(2, 6).Font.Color = vbWhite
+Cells(2, 6).Value = "Study"
+Cells(2, 6).Borders.LineStyle = xlContinous
+Cells(2, 6).Borders.Weight = 2
+Cells(2, 6).Borders.ColorIndex = 21
+Cells(2, 6).Interior.ColorIndex = 21
+Cells(2, 6).Font.Color = vbWhite
+
+Cells(2, 7).Value = "Revise"
+Cells(2, 7).Borders.LineStyle = xlContinous
+Cells(2, 7).Borders.Weight = 2
+Cells(2, 7).Borders.ColorIndex = 21
+Cells(2, 7).Interior.ColorIndex = 21
+Cells(2, 7).Font.Color = vbWhite
+
+Cells(2, 8).Value = "Work"
+Cells(2, 8).Borders.LineStyle = xlContinous
+Cells(2, 8).Borders.Weight = 2
+Cells(2, 8).Borders.ColorIndex = 21
+Cells(2, 8).Interior.ColorIndex = 21
+Cells(2, 8).Font.Color = vbWhite
+
+Cells(2, 9).Value = "Date"
+Cells(2, 9).Borders.LineStyle = xlContinous
+Cells(2, 9).Borders.Weight = 2
+Cells(2, 9).Borders.ColorIndex = 21
+Cells(2, 9).Interior.ColorIndex = 21
+Cells(2, 9).Font.Color = vbWhite
+
+'''' Saving Data In the Sheet ''''
+
+  Range("Duration") = Me.TextBox1.Value
+  Range("NewClass") = Me.TextBox2.Value
+  Range("OldClass") = Me.TextBox3.Value
+  Range("WorkingHours") = Me.TextBox4.Value
+  Range("Holidays") = Me.TextBox5.Value
+  
+
+
+'''' Creating Table based on input '''''
+ 
+         Dim X As Integer
+         Dim Y As Integer
+         Y = 1
+             For X = 1 To Range("Duration")
+             
+             Cells(X + 2, 5).Value = "Day " & Y
+             Cells(X + 2, 5).Borders.LineStyle = xlContinous
+             Cells(X + 2, 5).Borders.Weight = 2
+             Cells(X + 2, 5).Borders.ColorIndex = 21
+             
+             Cells(X + 2, 6).Value = Range("ClassPerDay") & " Classes"
+             Cells(X + 2, 6).Borders.LineStyle = xlContinous
+             Cells(X + 2, 6).Borders.Weight = 2
+             Cells(X + 2, 6).Borders.ColorIndex = 21
+             
+             Cells(X + 2, 7).Value = Range("OldClassPerDay") & " Classes"
+             Cells(X + 2, 7).Borders.LineStyle = xlContinous
+             Cells(X + 2, 7).Borders.Weight = 2
+             Cells(X + 2, 7).Borders.ColorIndex = 21
+             
+             Cells(X + 2, 8).Value = Range("WorkingHoursPerDay") & " Hours"
+             Cells(X + 2, 8).Borders.LineStyle = xlContinous
+             Cells(X + 2, 8).Borders.Weight = 2
+             Cells(X + 2, 8).Borders.ColorIndex = 21
+             
+             Y = Y + 1
+             Next
+             
+          DueDate = Range("Duration") - 1
+          
+         Dim i As Integer
+         i = 1
+         Cells(i + 2, 9).Value = DTPicker1.Value
+         Cells(i + 2, 9).Borders.LineStyle = xlContinous
+         Cells(i + 2, 9).Borders.Weight = 2
+         Cells(i + 2, 9).Borders.ColorIndex = 21
+        
+        For i = 1 To DueDate
+        
+        Cells(i + 3, 9).Value = DateAdd("d", i, DTPicker1.Value)
+        Cells(i + 3, 9).Borders.LineStyle = xlContinous
+        Cells(i + 3, 9).Borders.Weight = 2
+        Cells(i + 3, 9).Borders.ColorIndex = 21
+        Next
+             
+'''' Close the Form and Open workbook ''''
+UserForm1.Hide
+Application.Visible = True
+    End Sub
+    
+
+    
+   
+    
+
+Private Sub CommandButton2_Click()
+
+'''' Clearing Form ''''
+
+Me.TextBox1.Value = ""
+Me.TextBox2.Value = ""
+Me.TextBox3.Value = ""
+Me.TextBox4.Value = ""
+Me.TextBox5.Value = ""
+
+End Sub
+
+Private Sub DTPicker1_CallbackKeyDown(ByVal KeyCode As Integer, ByVal Shift As Integer, ByVal CallbackField As String, CallbackDate As Date)
+
+End Sub
+
+Private Sub Frame1_Click()
+
+End Sub
+
+Private Sub Image1_BeforeDragOver(ByVal Cancel As MSForms.ReturnBoolean, ByVal Data As MSForms.DataObject, ByVal X As Single, ByVal Y As Single, ByVal DragState As MSForms.fmDragState, ByVal Effect As MSForms.ReturnEffect, ByVal Shift As Integer)
+
+End Sub
+
+Private Sub Label1_Click()
+
+End Sub
+
+Private Sub Label2_Click()
+
+End Sub
+
+Private Sub Label3_Click()
+
+End Sub
+
+Private Sub Label5_Click()
+
+End Sub
+
+Private Sub Label7_Click()
+
+End Sub
+
+Private Sub TextBox1_Change()
+
+End Sub
+
+Private Sub UserForm_Activate()
+
+
+'''' Clearing Form ''''
+
+Me.TextBox1.Value = ""
+Me.TextBox2.Value = ""
+Me.TextBox3.Value = ""
+Me.TextBox4.Value = ""
+Me.TextBox5.Value = ""
+
+'''' Clearing Sheet ''''
+
+  Range("Duration") = ""
+  Range("NewClass") = ""
+  Range("OldClass") = ""
+  Range("WorkingHours") = ""
+  Range("Holidays") = ""
+  Range("E3:I3").EntireColumn = ""
+  
+'''' Clearing Borders ''''
+
+Range("E1:I1").EntireColumn.Delete
+
+
+End Sub
+
+Private Sub UserForm_Click()
+
+End Sub
